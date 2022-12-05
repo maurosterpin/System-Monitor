@@ -163,7 +163,7 @@ int LinuxParser::TotalProcesses() {
     }
     }
   }
-  return 0; 
+  return stoi(value); 
   }
 
 // TODO: Read and return the number of running processes
@@ -180,7 +180,7 @@ int LinuxParser::RunningProcesses() {
     }
     }
   }
-  return 0; 
+  return stoi(value); 
   }
 
 // TODO: Read and return the command associated with a process
@@ -209,7 +209,7 @@ string LinuxParser::Ram(int process_id[[maybe_unused]]) {
     }
     }
   }
-  return 0; 
+  return value; 
   }
 
 // TODO: Read and return the user ID associated with a process
@@ -227,7 +227,7 @@ string LinuxParser::Uid(int process_id) {
     }
     }
   }
-  return 0; 
+  return value; 
   }
 
 // TODO: Read and return the user associated with a process
@@ -246,7 +246,7 @@ string LinuxParser::User(int process_id) {
     }
     }
   }
-  return 0; 
+  return value; 
   }
 
 // TODO: Read and return the uptime of a process

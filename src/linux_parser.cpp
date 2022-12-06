@@ -75,11 +75,13 @@ float LinuxParser::MemoryUtilization() {
   std::ifstream stream(kProcDirectory + kMeminfoFilename);
   if(stream.is_open()) {
     while(std::getline(stream, line)) {
+      std::remove(line.begin(), line.end(), ' ');
+      std::replace(line.begin(), line.end(), ':', ' ');
       std::istringstream linestream(line);
       linestream >> key;
-      if(key == "MemTotal:") {
+      if(key == "MemTotal") {
         linestream >> total;
-      } else if (key == "MemFree:") {
+      } else if (key == "MemFree") {
         linestream >> free;
       }
     }
@@ -118,7 +120,7 @@ long LinuxParser::ActiveJiffies(int process_id) {
       values.emplace_back(value);
     }
   }
-  return stol(values[15] + values[16]);  
+  return stol(values[14] + values[15]);
 }
 
 // TODO: Read and return the number of active jiffies for the system
@@ -130,7 +132,7 @@ long LinuxParser::ActiveJiffies() {
 // TODO: Read and return the number of idle jiffies for the system
 long LinuxParser::IdleJiffies() { 
   auto jiffies = CpuUtilization(); 
-  return stol(jiffies[CPUStates::kIdle_]) + stol(jiffies[CPUStates::kIOwait_]); 
+  return stol(jiffies[CPUStates::kIdle_]) + stol(jiffies[CPUStates::kIOwait_]);
   }
 
 // TODO: Read and return CPU utilization
@@ -201,9 +203,10 @@ string LinuxParser::Ram(int process_id[[maybe_unused]]) {
   std::ifstream stream(kProcDirectory + to_string(process_id) + kStatusFilename);
   if(stream.is_open()) {
     while(std::getline(stream, line)) {
+    std::replace(line.begin(), line.end(), ':', ' ');
     std::istringstream linestream(line);
     while (linestream >> key >> value) {
-      if(key == "VmSize:") {
+      if(key == "VmSize") {
         return value;
       }
     }
@@ -219,6 +222,7 @@ string LinuxParser::Uid(int process_id) {
   std::ifstream stream(kProcDirectory + to_string(process_id) + kStatusFilename);
   if(stream.is_open()) {
     while(std::getline(stream, line)) {
+    std::replace(line.begin(), line.end(), ':', ' ');
     std::istringstream linestream(line);
     while (linestream >> key >> value) {
       if(key == "Uid:") {
@@ -238,6 +242,7 @@ string LinuxParser::User(int process_id) {
   std::ifstream stream(kPasswordPath);
   if(stream.is_open()) {
     while(std::getline(stream, line)) {
+    std::replace(line.begin(), line.end(), ':', ' ');
     std::istringstream linestream(line);
     while (linestream >> key >> link >> value) {
       if(key == uid) {

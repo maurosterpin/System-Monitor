@@ -1,5 +1,5 @@
 # CppND-System-Monitor
-This project is a part of the Udacity C++ engineer nanodegree
+This project is a part of the Udacity C++ nanodegree
 
 ![System Monitor](images/monitor.png)
 

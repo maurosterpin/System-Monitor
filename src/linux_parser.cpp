@@ -190,16 +190,14 @@ string LinuxParser::Command(int process_id) {
 
 // TODO: Read and return the memory used by a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Ram(int process_id[[maybe_unused]]) { 
+string LinuxParser::Ram(int process_id) { 
   string line, key, value;
   std::ifstream stream(kProcDirectory + to_string(process_id) + kStatusFilename);
   if(stream.is_open()) {
     while(std::getline(stream, line)) {
-    std::replace(line.begin(), line.end(), ':', ' ');
     std::istringstream linestream(line);
-    linestream >> key;
-      if(key == "VmSize") {
-        linestream >> value;
+    linestream >> key >> value;
+      if(key == "VmSize:") {
         return value;
       }
     }

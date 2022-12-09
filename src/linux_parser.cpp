@@ -143,6 +143,21 @@ vector<string> LinuxParser::CpuUtilization() {
   return cpu_utilisation; 
   }
 
+float LinuxParser::CpuUtilization(int process_id) { 
+  string line, cpu, value;
+  vector<float> cpu_utilisation;
+  std::ifstream stream(kProcDirectory + kStatFilename);
+  if(stream.is_open()) {
+    std::getline(stream, line);
+    std::istringstream linestream(line);
+    linestream >> cpu;
+    while (linestream >> value) {
+      cpu_utilisation.emplace_back(value);
+    }
+  }
+  return cpu_utilisation; 
+  }
+
 // TODO: Read and return the total number of processes
 int LinuxParser::TotalProcesses() { 
   string line, key, value;
@@ -198,7 +213,7 @@ string LinuxParser::Ram(int process_id) {
     std::istringstream linestream(line);
     linestream >> key >> value;
       if(key == "VmSize:") {
-        return value;
+        return std::to_string(stol(value)/1000);
       }
     }
   }

@@ -158,7 +158,7 @@ float LinuxParser::CpuUtilization(int process_id) {
   }
   float total_time = stof(cpu_utilisation[13]) + stof(cpu_utilisation[14]) + stof(cpu_utilisation[15]) + stof(cpu_utilisation[16]);
   float seconds = LinuxParser::UpTime() - (stof(cpu_utilisation[21])/sysconf(_SC_CLK_TCK) );
-  return (100 * (total_time/sysconf(_SC_CLK_TCK)/seconds));
+  return (total_time/sysconf(_SC_CLK_TCK)/seconds);
   }
 
 // TODO: Read and return the total number of processes

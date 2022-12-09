@@ -138,24 +138,27 @@ vector<string> LinuxParser::CpuUtilization() {
     linestream >> cpu;
     while (linestream >> value) {
       cpu_utilisation.emplace_back(value);
-    }
+    } 
   }
   return cpu_utilisation; 
   }
 
 float LinuxParser::CpuUtilization(int process_id) { 
-  string line, cpu, value;
-  vector<float> cpu_utilisation;
-  std::ifstream stream(kProcDirectory + kStatFilename);
+  string line, value; 
+  int i = 0;
+  vector<string> cpu_utilisation;
+  std::ifstream stream(kProcDirectory + std::to_string(process_id) + kStatFilename);
   if(stream.is_open()) {
     std::getline(stream, line);
     std::istringstream linestream(line);
-    linestream >> cpu;
-    while (linestream >> value) {
+    while (linestream >> value && i < 23) {
       cpu_utilisation.emplace_back(value);
+      i++;
     }
   }
-  return cpu_utilisation; 
+  float total_time = stof(cpu_utilisation[13]) + stof(cpu_utilisation[14]) + stof(cpu_utilisation[15]) + stof(cpu_utilisation[16]);
+  float seconds = LinuxParser::UpTime() - (stof(cpu_utilisation[21])/sysconf(_SC_CLK_TCK) );
+  return (100 * (total_time/sysconf(_SC_CLK_TCK)/seconds));
   }
 
 // TODO: Read and return the total number of processes

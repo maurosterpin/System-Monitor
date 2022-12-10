@@ -276,5 +276,5 @@ long LinuxParser::UpTime(int process_id) {
     }
     }
   }
-  return stol(values[21])/sysconf(_SC_CLK_TCK); 
+  return (stol(values[21])/sysconf(_SC_CLK_TCK)); 
   }

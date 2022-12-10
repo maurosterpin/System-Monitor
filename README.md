@@ -1,7 +1,7 @@
 # CppND-System-Monitor
 This project is a part of the Udacity C++ nanodegree
 
-![System Monitor](images/monitor.png)
+![image](https://user-images.githubusercontent.com/92162018/206733982-ae929161-68ca-4105-a571-f351def522f7.png)
 
 ## ncurses
 [ncurses](https://www.gnu.org/software/ncurses/) is a library that facilitates text-based graphical output in the terminal. This project relies on ncurses for display output.
